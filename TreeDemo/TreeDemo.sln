@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp", "Assembly
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sirenix.OdinInspector.CompatibilityLayer.Editor", "Sirenix.OdinInspector.CompatibilityLayer.Editor.csproj", "{ed0ba3e1-340d-55ed-49bc-724376d32774}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sirenix.OdinInspector.Modules.UnityMathematics", "Sirenix.OdinInspector.Modules.UnityMathematics.csproj", "{5bf885bd-d1db-3c7c-0a88-55d9fec9953c}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,6 +20,8 @@ Global
 		{7a50ffa9-ee71-1ed3-78c0-de3909fc2642}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ed0ba3e1-340d-55ed-49bc-724376d32774}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{ed0ba3e1-340d-55ed-49bc-724376d32774}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5bf885bd-d1db-3c7c-0a88-55d9fec9953c}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5bf885bd-d1db-3c7c-0a88-55d9fec9953c}.Debug|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
