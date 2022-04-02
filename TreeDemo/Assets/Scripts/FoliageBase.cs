@@ -8,7 +8,7 @@ public abstract class FoliageBase
 {
     public float radius;
     public float height;
-    public int revolutionCount = 8;
+    [Range(3, 32)] public int revolutionCount = 8;
 
     public abstract Vector3[] GenerateProfile();
 
@@ -20,50 +20,48 @@ public abstract class FoliageBase
         List<Vector3> verts = new List<Vector3>();
         List<int> tris = new List<int>();
 
-        Vector3[] refProfile = GenerateProfile();
-        Vector3[] pL = new Vector3[refProfile.Length];
-        int polarID = 0;
-        foreach (Vector3 p in refProfile)
+        Vector3[] strip = GenerateProfile();
+        int stripCt = strip.Length - 2;
+        for (int i = 1; i < strip.Length - 1; i++)
         {
-            // Polar Coordinate System: (r, y, θ)
-            refProfile[polarID] = new Vector3(
-                Mathf.Sqrt(p.x * p.x + p.z * p.z),
-                p.y,
-                Mathf.Atan(p.z / p.x)
-            );
-            polarID++;
+            strip[i] = MathUtilities.CartesianToPolar(strip[i]);
+            if (i != 0 && i != strip.Length - 1)
+                verts.Add(strip[i]);
         }
-        Vector3[] pR = pL;
 
-
-
-        for (int revID = 0; revID < revolutionCount; revID++)
+        // Add and connect non pole vertices
+        for (int revID = 1; revID < revolutionCount; revID++)
         {
             // Add to vertices
-            int startIndex = Mathf.Max(verts.Count - 1, 0);
-            for (int pID = 0; pID < pR.Length; pID++)
+            for (int pID = 1; pID < strip.Length - 1; pID++)
             {
-                verts.Add(pL[pID]);
-
-
-
-                pR[pID].x += pR[pID].x * Mathf.Cos(360f / revolutionCount);
-                pR[pID].z += pR[pID].z * Mathf.Sin(360f / revolutionCount);
-                verts.Add(pR[pID]);
-            }
-            int endIndex = verts.Count;
-
-            // Add to triangles
-            for (int pID = startIndex; pID < endIndex - startIndex; pID += 4)
-            {
-                tris.Add(pID + 0); tris.Add(pID + 1); tris.Add(pID + 2);
-                tris.Add(pID + 3); tris.Add(pID + 2); tris.Add(pID + 1);
+                strip[pID].z = (Mathf.PI * 2f) / revolutionCount * revID;
+                verts.Add(MathUtilities.PolarToCartesian(strip[pID]));
             }
 
-            // Prepare revolution step for next step
-            pL = pR;
-            // break;
+            // Add triangles
+            int initPoint = (revID - 1) * stripCt;
+            for (int pID = 0; pID < stripCt; pID += 2)
+            {
+                tris.Add(pID + initPoint + 0); tris.Add(pID + initPoint + 1); tris.Add(pID + initPoint + stripCt);
+                tris.Add(pID + initPoint + 1); tris.Add(pID + initPoint + 1 + stripCt); tris.Add(pID + initPoint + stripCt);
+            }
         }
+
+        // Connect the start and end loops
+        tris.Add(1); tris.Add(0); tris.Add(verts.Count - 2);
+        tris.Add(verts.Count - 2); tris.Add(verts.Count - 1); tris.Add(1);
+
+        // Add bottom pole and tris
+        verts.Add(strip[0]);
+        int btmVertID = verts.Count - 1;
+        for (int i = 0; i < revolutionCount - 1; i++)
+        {
+            tris.Add(i);
+            tris.Add(btmVertID);
+            tris.Add(i + stripCt);
+        }
+        
 
         mesh.vertices = verts.ToArray();
         mesh.triangles = tris.ToArray();
