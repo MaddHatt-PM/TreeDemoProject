@@ -39,7 +39,7 @@ public class MeshGenerator : MonoBehaviour
         foreach (FoliageBase fol in foliages)
         {
             meshFilter.sharedMesh = fol.GenerateMesh(meshFilter.sharedMesh);
-            Vector3[] profilePoints = meshFilter.mesh.vertices;
+            Vector3[] profilePoints = meshFilter.sharedMesh.vertices;
             foreach (var point in profilePoints)
             {
                 Gizmos.DrawSphere(point, profilePointSize);
