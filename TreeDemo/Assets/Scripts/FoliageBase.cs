@@ -21,7 +21,7 @@ public abstract class FoliageBase
         List<int> tris = new List<int>();
 
         Vector3[] strip = GenerateProfile();
-        int stripCt = strip.Length - 2;
+        int stripCt = strip.Length - 2; // disregard the start/end points
         for (int i = 1; i < strip.Length - 1; i++)
         {
             strip[i] = MathUtilities.CartesianToPolar(strip[i]);
@@ -41,7 +41,7 @@ public abstract class FoliageBase
 
             // Add triangles
             int initPoint = (revID - 1) * stripCt;
-            for (int pID = 0; pID < stripCt; pID += 2)
+            for (int pID = 0; pID < Mathf.Max (stripCt - 1, 2); pID += 1)
             {
                 tris.Add(pID + initPoint + 0); tris.Add(pID + initPoint + 1); tris.Add(pID + initPoint + stripCt);
                 tris.Add(pID + initPoint + 1); tris.Add(pID + initPoint + 1 + stripCt); tris.Add(pID + initPoint + stripCt);
@@ -49,20 +49,41 @@ public abstract class FoliageBase
         }
 
         // Connect the start and end loops
-        tris.Add(1); tris.Add(0); tris.Add(verts.Count - 2);
-        tris.Add(verts.Count - 2); tris.Add(verts.Count - 1); tris.Add(1);
+        // Need to do this in a loop now
+        // tris.Add(1); tris.Add(0); tris.Add(verts.Count - 1);
+        // tris.Add(verts.Count - 1); tris.Add(0); tris.Add(verts.Count - 2);
 
         // Add bottom pole and tris
         verts.Add(strip[0]);
         int btmVertID = verts.Count - 1;
-        for (int i = 0; i < revolutionCount - 1; i++)
+        for (int i = 0; i < revolutionCount; i++)
         {
-            tris.Add(i);
             tris.Add(btmVertID);
-            tris.Add(i + stripCt);
+            tris.Add((i * stripCt));
+            tris.Add((i * stripCt) + stripCt);
         }
-        
 
+        tris.Add(btmVertID);
+        tris.Add((revolutionCount - 1) * stripCt);
+        tris.Add(0);
+
+        // // Add top pole and tris
+        verts.Add(strip[strip.Length - 1]);
+        int topVertID = verts.Count - 1;
+        int stripOffset = stripCt - 1;
+        for (int i = 0; i < revolutionCount; i++)
+        {
+            tris.Add((i * stripCt) + (stripCt - 1) + stripCt);
+            tris.Add((i * stripCt) + (stripCt - 1));
+            tris.Add(topVertID);
+        }
+
+        tris.Add((stripCt - 1));
+        tris.Add(topVertID);
+        tris.Add(verts.Count - 3);
+        tris.Add((revolutionCount - 1) + (stripCt - 1) * stripCt);
+
+        // Finalize mesh
         mesh.vertices = verts.ToArray();
         mesh.triangles = tris.ToArray();
         mesh.RecalculateNormals();

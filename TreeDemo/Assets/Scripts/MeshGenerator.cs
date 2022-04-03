@@ -56,7 +56,7 @@ public class MeshGenerator : MonoBehaviour
                 cnt++;
             }
 
-            Debug.LogFormat("Verts: {0}, Tris: {1}\n" + pointsInfo, meshFilter.sharedMesh.vertexCount, meshFilter.sharedMesh.triangles.Length);
+            // Debug.LogFormat("Verts: {0}, Tris: {1}\n" + pointsInfo, meshFilter.sharedMesh.vertexCount, meshFilter.sharedMesh.triangles.Length);
 
             // Generate Profile
             Vector3[] profilePoints = fol.GenerateProfile();

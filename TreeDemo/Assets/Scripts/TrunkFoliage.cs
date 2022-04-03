@@ -15,6 +15,7 @@ public class TrunkFoliage : FoliageBase
         {
             new Vector3(0f, 0f),
             new Vector3(radius * (1f - lowerTaper), 0f),
+            new Vector3(radius, height * 0.5f),
             new Vector3(radius * (1f - upperTaper), height),
             new Vector3(0f, height)
         };
