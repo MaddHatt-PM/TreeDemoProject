@@ -5,19 +5,20 @@ using UnityEngine;
 [ExecuteAlways]
 public class Golfball : MonoBehaviour
 {
-    public MeshGenerator[] generators;
     public Material insideMat;
     public Material outsideMat;
 
     void Update()
     {
+        MeshGenerator[] generators = Object.FindObjectsOfType<MeshGenerator>();
+
         foreach (MeshGenerator gen in generators)
         {
-                MeshRenderer meshRenderer = gen.GetComponent<MeshRenderer>();
-                bool isInCollider = false;
-            foreach(FoliageBase foliage in gen.foliages)
+            MeshRenderer meshRenderer = gen.GetComponent<MeshRenderer>();
+            bool isInCollider = false;
+            foreach (FoliageBase foliage in gen.foliages)
             {
-                isInCollider = foliage.IsInCollider(transform.position);
+                isInCollider = foliage.IsInCollider(transform.position - gen.transform.position);
                 if (isInCollider) break;
             }
 
