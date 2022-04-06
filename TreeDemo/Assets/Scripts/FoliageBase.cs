@@ -8,9 +8,12 @@ public abstract class FoliageBase
 {
     public float radius;
     public float height;
+    public float offset;
     [Range(3, 32)] public int revolutionCount = 8;
 
     public abstract Vector3[] GenerateProfile();
+    public abstract bool IsInCollider(Vector3 point);
+    
 
     public virtual Mesh GenerateMesh(Mesh mesh)
     {
@@ -50,8 +53,8 @@ public abstract class FoliageBase
 
         // Connect the start and end loops
         // Need to do this in a loop now
-        // tris.Add(1); tris.Add(0); tris.Add(verts.Count - 1);
-        // tris.Add(verts.Count - 1); tris.Add(0); tris.Add(verts.Count - 2);
+        tris.Add(1); tris.Add(0); tris.Add(verts.Count - 1);
+        tris.Add(verts.Count - 1); tris.Add(0); tris.Add(verts.Count - 2);
 
         // Add bottom pole and tris
         verts.Add(strip[0]);
@@ -81,7 +84,7 @@ public abstract class FoliageBase
         tris.Add((stripCt - 1));
         tris.Add(topVertID);
         tris.Add(verts.Count - 3);
-        tris.Add((revolutionCount - 1) + (stripCt - 1) * stripCt);
+        // tris.Add((revolutionCount - 1) + (stripCt - 1) * stripCt);
 
         // Finalize mesh
         mesh.vertices = verts.ToArray();

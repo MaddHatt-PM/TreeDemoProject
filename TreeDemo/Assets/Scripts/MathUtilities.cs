@@ -14,9 +14,9 @@ public static class MathUtilities
                 (Mathf.Approximately(0f, point.x)) ? 0f : Mathf.Atan(point.z / point.x));
     }
 
+    // Polar Coordinate System: (r, y, θ)
     public static Vector3 PolarToCartesian(Vector3 input)
     {
-        // Polar Coordinate System: (r, y, θ)
         return new Vector3(
                 input.x * Mathf.Cos(input.z),
                 input.y,

@@ -13,14 +13,27 @@ public class TrunkFoliage : FoliageBase
     {
         Vector3[] profile = new Vector3[]
         {
-            new Vector3(0f, 0f),
-            new Vector3(radius * (1f - lowerTaper), 0f),
-            new Vector3(radius, height * 0.5f),
-            new Vector3(radius * (1f - upperTaper), height),
-            new Vector3(0f, height)
+            new Vector3(0f, offset),
+            new Vector3(radius * (1f - lowerTaper), offset),
+            // new Vector3(radius, height * 0.5f),
+            new Vector3(radius * (1f - upperTaper), offset + height),
+            new Vector3(0f, offset + height)
         };
 
         return profile;
+    }
+
+    public override bool IsInCollider(Vector3 point)
+    {
+        if (point.y >= offset && point.y <= offset + height)
+        {
+            // Convert point to polar in respect to 
+            Vector3 polarPoint = MathUtilities.CartesianToPolar(point);
+            if (polarPoint.x <= radius)
+                return true;
+        }
+
+        return false;
     }
 
     // public override Mesh GenerateMesh(Mesh mesh)
