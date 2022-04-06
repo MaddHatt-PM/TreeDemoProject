@@ -29,7 +29,12 @@ public class TrunkFoliage : FoliageBase
         {
             // Convert point to polar in respect to 
             Vector3 polarPoint = MathUtilities.CartesianToPolar(point);
-            if (polarPoint.x <= radius)
+            float sectionRadius = Mathf.Lerp(
+                radius * (1f - lowerTaper),
+                radius * (1f - upperTaper), 
+                (point.y - offset) / height
+            );
+            if (polarPoint.x <= sectionRadius)
                 return true;
         }
 
