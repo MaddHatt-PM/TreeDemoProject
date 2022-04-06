@@ -38,9 +38,9 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\MathUtilities.cs" />
      <Compile Include="Assets\Scripts\TrunkFoliage.cs" />
+     <Compile Include="Assets\Scripts\Golfball.cs" />
      <Compile Include="Assets\Scripts\MeshGenerator.cs" />
      <Compile Include="Assets\Scripts\FoliageBase.cs" />
-     <Compile Include="Assets\Scripts\Golfball.cs" />
     <Reference Include="UnityEngine">
         <HintPath>C:\Program Files\Unity\Hub\Editor\2021.2.10f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>

@@ -12,7 +12,7 @@ public class MeshGenerator : MonoBehaviour
     [Title("Debugging Variables")]
     public float profilePointSize = 0.25f;
     public Vector3 debugPoint;
-    [Range(1, 50)] public int vertDrawLimit = 0;
+    [Range(0, 50)] public int vertDrawLimit = 0;
 
     private MeshRenderer _meshRenderer;
     public MeshRenderer meshRenderer

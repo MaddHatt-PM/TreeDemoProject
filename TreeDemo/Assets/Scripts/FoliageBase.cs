@@ -13,7 +13,6 @@ public abstract class FoliageBase
 
     public abstract Vector3[] GenerateProfile();
     public abstract bool IsInCollider(Vector3 point);
-    
 
     public virtual Mesh GenerateMesh(Mesh mesh)
     {
@@ -44,7 +43,7 @@ public abstract class FoliageBase
 
             // Add triangles
             int initPoint = (revID - 1) * stripCt;
-            for (int pID = 0; pID < Mathf.Max (stripCt - 1, 2); pID += 1)
+            for (int pID = 0; pID < Mathf.Max(stripCt - 1, 2); pID += 1)
             {
                 tris.Add(pID + initPoint + 0); tris.Add(pID + initPoint + 1); tris.Add(pID + initPoint + stripCt);
                 tris.Add(pID + initPoint + 1); tris.Add(pID + initPoint + 1 + stripCt); tris.Add(pID + initPoint + stripCt);
@@ -52,14 +51,17 @@ public abstract class FoliageBase
         }
 
         // Connect the start and end loops
-        // Need to do this in a loop now
-        tris.Add(1); tris.Add(0); tris.Add(verts.Count - 1);
-        tris.Add(verts.Count - 1); tris.Add(0); tris.Add(verts.Count - 2);
+        int endStripOffset = verts.Count - stripCt;
+        for (int i = 0; i < stripCt - 1; i++)
+        {
+            tris.Add(i + 1); tris.Add(i); tris.Add(i + endStripOffset);
+            tris.Add(i + endStripOffset); tris.Add(i + 1 + endStripOffset); tris.Add(i + 1);
+        }
 
         // Add bottom pole and tris
         verts.Add(strip[0]);
         int btmVertID = verts.Count - 1;
-        for (int i = 0; i < revolutionCount; i++)
+        for (int i = 0; i < revolutionCount - 1; i++)
         {
             tris.Add(btmVertID);
             tris.Add((i * stripCt));
@@ -70,11 +72,11 @@ public abstract class FoliageBase
         tris.Add((revolutionCount - 1) * stripCt);
         tris.Add(0);
 
-        // // Add top pole and tris
+        // // // Add top pole and tris
         verts.Add(strip[strip.Length - 1]);
         int topVertID = verts.Count - 1;
         int stripOffset = stripCt - 1;
-        for (int i = 0; i < revolutionCount; i++)
+        for (int i = 0; i < revolutionCount - 1; i++)
         {
             tris.Add((i * stripCt) + (stripCt - 1) + stripCt);
             tris.Add((i * stripCt) + (stripCt - 1));
@@ -84,7 +86,6 @@ public abstract class FoliageBase
         tris.Add((stripCt - 1));
         tris.Add(topVertID);
         tris.Add(verts.Count - 3);
-        // tris.Add((revolutionCount - 1) + (stripCt - 1) * stripCt);
 
         // Finalize mesh
         mesh.vertices = verts.ToArray();

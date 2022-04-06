@@ -15,7 +15,7 @@ public class TrunkFoliage : FoliageBase
         {
             new Vector3(0f, offset),
             new Vector3(radius * (1f - lowerTaper), offset),
-            // new Vector3(radius, height * 0.5f),
+            new Vector3(radius, height * 0.5f),
             new Vector3(radius * (1f - upperTaper), offset + height),
             new Vector3(0f, offset + height)
         };
@@ -34,6 +34,7 @@ public class TrunkFoliage : FoliageBase
                 radius * (1f - upperTaper), 
                 (point.y - offset) / height
             );
+            
             if (polarPoint.x <= sectionRadius)
                 return true;
         }
