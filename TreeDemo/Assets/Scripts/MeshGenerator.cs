@@ -41,22 +41,24 @@ public class MeshGenerator : MonoBehaviour
         foreach (FoliageBase fol in foliages)
         {
             // Generate Mesh
-            meshFilter.mesh = fol.GenerateMesh(meshFilter.mesh);
-            Vector3[] meshPoints = meshFilter.mesh.vertices;
-            Gizmos.color = Color.red;
-            string pointsInfo = "";
-            int cnt = 1;
-            foreach (var point in meshPoints)
-            {
-                Gizmos.DrawSphere(point, profilePointSize);
-                pointsInfo += point.ToString() + " | ";
+            meshFilter.sharedMesh = fol.GenerateMesh(meshFilter.mesh);
+            Vector3[] meshPoints = meshFilter.sharedMesh.vertices;
 
-                if (cnt == vertDrawLimit)
-                    break;
-                cnt++;
-            }
+            Gizmos.matrix = transform.localToWorldMatrix;
+            
+            // // Generate Points
+            // Gizmos.color = Color.red;
+            // string pointsInfo = "";
+            // int count = 1;
+            // foreach (var point in meshPoints)
+            // {
+            //     Gizmos.DrawSphere(point, profilePointSize);
+            //     pointsInfo += point.ToString() + " | ";
 
-            // Debug.LogFormat("Verts: {0}, Tris: {1}\n" + pointsInfo, meshFilter.sharedMesh.vertexCount, meshFilter.sharedMesh.triangles.Length);
+            //     if (count == vertDrawLimit)
+            //         break;
+            //     count++;
+            // }
 
             // Generate Profile
             Vector3[] profilePoints = fol.GenerateProfile();

@@ -9,10 +9,34 @@ public abstract class FoliageBase
     public float radius;
     public float height;
     public float offset;
-    [Range(3, 32)] public int revolutionCount = 8;
+    [Range(3, 64)] public int revolutionCount = 8;
 
     public abstract Vector3[] GenerateProfile();
-    public abstract bool IsInCollider(Vector3 point);
+    public virtual bool IsInCollider(Vector3 point)
+    {
+        if (point.y >= offset && point.y <= offset + height)
+        {
+            // Convert point to polar in respect to foliage origin
+            Vector3 polarPoint = MathUtilities.CartesianToPolar(point);
+
+            Vector3[] profile = GenerateProfile();
+            int rangeID;
+            for (rangeID = 1; rangeID < profile.Length - 2; rangeID++)
+                if (profile[rangeID].y <= point.y && point.y <= profile[rangeID + 1].y)
+                    break;
+
+            float sectionRadius = Mathf.Lerp(
+                profile[rangeID].x,
+                profile[rangeID + 1].x,
+                (point.y - offset) / (profile[rangeID + 1].x - profile[rangeID].x)
+            );
+
+            if (polarPoint.x <= sectionRadius)
+                return true;
+        }
+
+        return false;
+    }
 
     public virtual Mesh GenerateMesh(Mesh mesh)
     {
