@@ -4,7 +4,7 @@ using UnityEngine;
 using Sirenix.OdinInspector;
 
 [RequireComponent(typeof(MeshRenderer), typeof(MeshFilter))]
-public class MeshGenerator : MonoBehaviour
+public class FoliageGenerator : MonoBehaviour
 {
     [Title("Foliage Variables"), SerializeReference]
     public FoliageBase[] foliages = null;

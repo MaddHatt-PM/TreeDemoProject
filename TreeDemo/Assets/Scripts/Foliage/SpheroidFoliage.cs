@@ -9,14 +9,17 @@ using Sirenix.OdinInspector;
 public class SpheroidFoliage : FoliageBase
 {
     [Range(0, 64)] public int sampleRate = 6;
-    [Range(0.1f, 10f)] public float curvature;
+    [Range(0.1f, 10f)] public float upperCurv = 0.5f;
+    [Range(0.1f, 10f)] public float lowerCurv = 0.5f;
+    // [Range(0.1f, 10f)] public float curvature = 0.5f;
+
 
     public float SampleSuperEllipse(float value01)
     {
         float x = Mathf.Clamp01(value01);
         bool invert = (x <= 0.5f);
+        float curvature = (invert) ? lowerCurv : upperCurv;
         x = Mathf.Abs((x - 0.5f) * 2.0f);
-        // if (invert) x = 1f - x;
 
         float y = Mathf.Pow((1f - Mathf.Pow(x , curvature)), 1f / curvature);
         if (invert) y = -y;

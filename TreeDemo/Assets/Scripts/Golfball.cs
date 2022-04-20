@@ -10,9 +10,9 @@ public class Golfball : MonoBehaviour
 
     void Update()
     {
-        MeshGenerator[] generators = Object.FindObjectsOfType<MeshGenerator>();
+        FoliageGenerator[] generators = Object.FindObjectsOfType<FoliageGenerator>();
 
-        foreach (MeshGenerator gen in generators)
+        foreach (FoliageGenerator gen in generators)
         {
             MeshRenderer meshRenderer = gen.GetComponent<MeshRenderer>();
             bool isInCollider = false;
